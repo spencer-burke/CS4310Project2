@@ -1,0 +1,104 @@
+# First In First Out (FIFO)
+# page_frame_size: the number of page frames to have
+# reference_line: the reference string representing the pages
+# output: whether or not to output algorithm to the terminal
+# NOTE: pseudocode does not include the output/logging logic
+fifo(page_frame_size, reference_line, output)
+    faults = 0
+    page_table = new Array[5]
+    current_table_slot = 0
+
+    pages = convert_reference_line_to_pages(reference_line)
+
+    # iterate through each page and add/replace it if its not in the page table
+    foreach (page in pages)
+        if (page in page_table)
+            # do nothing
+        else
+            page_table[current_table_slot % page_frame_size] = page
+
+            current_table_slot += 1
+            faults += 1
+
+    return faults
+
+
+# Least Recently Used (LRU)
+# page_frame_size: the number of page frames to have
+# reference_line: the reference string representing the pages
+# output: whether or not to output algorithm to the terminal
+# NOTE: pseudocode does not include the output/logging logic
+lru(page_frame_size, reference_line, output)
+    faults = 0
+    page_stack = []
+
+    pages = convert_reference_line_to_pages(reference_line)
+
+    # remove the least recently used page by placing the most recently used at the end of the stack
+    foreach (page in pages)
+        # if found make page most recently used(farthest from start)
+        if (page in page_stack)
+            # remove the new page and push it to the end of the stack
+            page_stack.delete(page)
+            page_stack.push(page)
+        else:
+           # if the page table isn't full don't replace just add
+            if (page_stack.length < page_frame.size)
+                page_stack.push(page)
+            # if the page is full then replace
+            else
+                # remove a page from the beginning of the array/stack
+                page_stack.shift
+                # push new value to the end
+                page_stack.push(page)
+            
+            faults += 1
+    
+    return faults
+
+
+# Optimal Algorithm (OPT)
+# page_frame_size: the number of page frames to have
+# reference_line: the reference string representing the pages
+# output: whether or not to output algorithm to the terminal
+# NOTE: pseudocode does not include the output/logging logic
+opt(page_frame_size, reference_line, output)
+    faults = 0
+    page_table = []
+
+    pages = convert_reference_line_to_pages(reference_line)
+
+    foreach_with_index (page in pages, index):
+        if (page in page_table)
+            # do nothing
+        else
+            # if not found and space available
+            if (page_table.length < page_frame_size)
+                page_table.push(new_page)
+            # if not found and space not available
+            else
+                # get subset of pages to search through
+                search_pages = pages((index+1):-1)
+
+                replace_page = null
+                furthest_index = -1
+
+                # iterate through pages in page table to get greatest distance for replacement
+                foreach (page in pages)
+                    current_index = search_pages.index(page)
+                    
+                    # infinite case where the page does not appear again
+                    if (current_index == null)
+                        replace_page = page
+                        break
+                    # furthest case
+                    elsif (current_index > furthest_index)
+                        furthest_index = current_index
+                        replace_page = page
+            
+                page_table.delete(replace_page)
+                page_table.push(new_page)
+
+            faults += 1
+        
+        return faults

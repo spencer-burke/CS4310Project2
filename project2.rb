@@ -23,6 +23,11 @@ end
 PAGE_FRAME_SIZES = [3, 4, 5, 6].freeze
 
 # First In First Out(FIFO)
+=begin
+page_frame_size: the number of page frames to have
+reference_line: the reference string representing the pages
+output: whether or not to output algorithm to the terminal
+=end
 def fifo(page_frame_size, reference_line, output = false)
   faults = 0
   page_table = Array.new(page_frame_size)
@@ -59,6 +64,11 @@ def fifo(page_frame_size, reference_line, output = false)
 end
 
 # Least Recently Used (LRU)
+=begin
+page_frame_size: the number of page frames to have
+reference_line: the reference string representing the pages
+output: whether or not to output algorithm to the terminal
+=end
 def lru(page_frame_size, reference_line, output = false)
   faults = 0
   # start with an empty array to make sure length works properly
@@ -102,6 +112,11 @@ def lru(page_frame_size, reference_line, output = false)
 end
 
 # Optimal Algorithm (OPT)
+=begin
+page_frame_size: the number of page frames to have
+reference_line: the reference string representing the pages
+output: whether or not to output algorithm to the terminal
+=end
 def opt(page_frame_size, reference_line, output = false)
   faults = 0
   page_table = []
@@ -127,7 +142,7 @@ def opt(page_frame_size, reference_line, output = false)
       if page_table.length < page_frame_size
         page_table.push(new_page)
 
-      # if not found and full then replace with distance calcs
+      # if not found and full then replace with distance
       else
         search_pages = pages[(index + 1)..-1]
 
@@ -163,6 +178,8 @@ def opt(page_frame_size, reference_line, output = false)
   return faults
 end
 
+=begin
 fifo(3, "70120304230321201701", true)
 lru(3, "70120304230321201701", true)
 opt(3, "70120304230321201701", true)
+=end
