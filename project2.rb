@@ -34,7 +34,7 @@ def fifo(page_frame_size, reference_line, output = false)
   current_table_slot = 0
 
   if output
-    puts("FIFO algorithm with reference string: #{reference_line}")
+    puts("FIFO algorithm with reference string: #{reference_line} with page frame size: #{page_frame_size}")
   end
 
   pages = reference_line.split("").map(&:to_i)
@@ -60,6 +60,10 @@ def fifo(page_frame_size, reference_line, output = false)
     end
   end
 
+  if output
+    puts("Algorithm: fifo reference string: #{reference_line} faults: #{faults}")
+  end
+
   return faults
 end
 
@@ -75,7 +79,7 @@ def lru(page_frame_size, reference_line, output = false)
   page_stack = []
 
   if output
-    puts("LRU algorithm with reference string: #{reference_line}")
+    puts("LRU algorithm with reference string: #{reference_line} with page frame size: #{page_frame_size}")
   end
 
   pages = reference_line.split("").map(&:to_i)
@@ -108,6 +112,10 @@ def lru(page_frame_size, reference_line, output = false)
     end
   end
 
+  if output
+    puts("Algorithm: lru reference string: #{reference_line} faults: #{faults}")
+  end
+
   return faults
 end
 
@@ -122,7 +130,7 @@ def opt(page_frame_size, reference_line, output = false)
   page_table = []
 
   if output
-    puts("OPT algorithm with reference string: #{reference_line}")
+    puts("OPT algorithm with reference string: #{reference_line} with page frame size: #{page_frame_size}")
   end
 
   pages = reference_line.split("").map(&:to_i)
@@ -175,11 +183,22 @@ def opt(page_frame_size, reference_line, output = false)
     end
   end
 
+  if output
+    puts("Algorithm: opt reference string: #{reference_line} faults: #{faults}")
+  end
+
   return faults
 end
 
-=begin
-fifo(3, "70120304230321201701", true)
-lru(3, "70120304230321201701", true)
-opt(3, "70120304230321201701", true)
-=end
+reference_string = "664670513354572360616765761423"
+
+def run_test_cases(reference_string)
+  PAGE_FRAME_SIZES.each do |size|
+    fifo(size, reference_string, true)
+    puts("")
+    lru(size, reference_string, true)
+    puts("")
+    opt(size, reference_string, true)
+    puts("")
+  end
+end
