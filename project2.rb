@@ -42,7 +42,7 @@ def fifo(page_frame_size, reference_line, output = false)
   if output
     puts("Page table start: #{page_table}")
   end
-  
+
   pages.each do |new_page|
     if page_table.include?(new_page)
       if output
@@ -201,8 +201,8 @@ def run_test_cases(reference_string)
   end
 end
 
-def calculate_averages 
- # read the 50 strings into an array since all algorithms use them 
+def calculate_averages
+ # read the 50 strings into an array since all algorithms use them
  reference_strings = []
  File.open("TestingData.txt", "r").each do |line|
   reference_strings.push(line.strip)
