@@ -190,8 +190,6 @@ def opt(page_frame_size, reference_line, output = false)
   return faults
 end
 
-reference_string = "664670513354572360616765761423"
-
 def run_test_cases(reference_string)
   PAGE_FRAME_SIZES.each do |size|
     fifo(size, reference_string, true)
@@ -202,3 +200,56 @@ def run_test_cases(reference_string)
     puts("")
   end
 end
+
+def calculate_averages 
+ # read the 50 strings into an array since all algorithms use them 
+ reference_strings = []
+ File.open("TestingData.txt", "r").each do |line|
+  reference_strings.push(line.strip)
+ end
+
+ # calculate and output values to file table
+ PAGE_FRAME_SIZES.each do |size|
+  # do the fifo calculation
+  fault_counts = []
+  reference_strings.each do |reference_string|
+    fault_counts.push(fifo(size, reference_string, false))
+  end
+
+  sum = 0
+  fault_counts.each do |fault_count|
+    sum += fault_count
+  end
+  average = sum / 50.0
+
+  puts("fifo algorithm average with page frame size #{size} and average: #{average}")
+  # do the lru calculation
+  fault_counts = []
+  reference_strings.each do |reference_string|
+    fault_counts.push(lru(size, reference_string, false))
+  end
+
+  sum = 0
+  fault_counts.each do |fault_count|
+    sum += fault_count
+  end
+  average = sum / 50.0
+
+  puts("lru algorithm average with page frame size #{size} and average: #{average}")
+  # do the opt calculation
+  fault_counts = []
+  reference_strings.each do |reference_string|
+    fault_counts.push(opt(size, reference_string, false))
+  end
+
+  sum = 0
+  fault_counts.each do |fault_count|
+    sum += fault_count
+  end
+  average = sum / 50.0
+
+  puts("opt algorithm average with page frame size #{size} and average: #{average}\n\n")
+ end
+end
+
+calculate_averages
